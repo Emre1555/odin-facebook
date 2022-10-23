@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'friends/index'
+  get 'friends/destroy'
+  resources :friend_requests, only: [:index, :create, :update, :destroy]
+  resources :friendships
+  resources :friends, only: [:index, :destroy]
+
   resources :posts
   devise_for :users, controllers: { sessions: 'users/sessions' }
 

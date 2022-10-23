@@ -1,0 +1,26 @@
+
+<p>Incoming friend requests</p>
+<% if @incoming %>
+  <% @incoming.each do |friend_request| %>
+    <%= friend_request.user.email %>
+    <%= button_to "Accept", friend_request_path(friend_request), method: :put %>
+    <%= button_to "Reject", friend_request_path(friend_request), method: :delete %>
+  <%end%>
+<%end%>
+
+<p> Outgoing friend requests </p>
+<% if @outgoing %>  
+  <% @outgoing.each do |friend_request| %>
+    <p>You want to be friends with <%= friend_request.friend.email %></p>
+    <%= link_to "Cancel", friend_request_path(friend_request), method: :delete %>
+  <% end %>
+<%end%>
+
+
+<p> friends </p>
+<% if @current_user.friends %>
+  <% @current_user.friends.each do |friendship| %>
+    <p> <%= friendship.email %> </p>
+    <%= button_to "Unfriend", friend_path(friendship.id), method: :delete %>
+  <% end %>
+<%end%>
