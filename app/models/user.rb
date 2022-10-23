@@ -21,4 +21,9 @@ class User < ApplicationRecord
     friends.select{ |friend| !friend.friends.include?(self) }  
   end
 
+  def remove_friend(friend)
+    friendship = friendships.find_by(friend: friend)
+    friendship.destroy
+  end
+
 end

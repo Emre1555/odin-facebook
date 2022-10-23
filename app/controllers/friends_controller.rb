@@ -7,8 +7,8 @@ class FriendsController < ApplicationController
   end
 
   def destroy
-    current_user.friends.destroy(@friend)
-    redirect_to root_path
+    current_user.remove_friend(@friend)
+    redirect_to friend_path
     head :no_content
   end
 
@@ -16,7 +16,7 @@ class FriendsController < ApplicationController
   private
 
   def set_friend
-    @friend = Friendship.find(params[:id])
+    @friend = User.find(params[:id])
   end
 
 
