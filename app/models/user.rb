@@ -10,6 +10,8 @@ class User < ApplicationRecord
 
   has_many :friend_requests, dependent: :destroy
   has_many :pending_friends, through: :friend_requests, source: :friend
+
+  has_many :posts, dependent: :destroy
   
 
 

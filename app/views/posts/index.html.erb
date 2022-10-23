@@ -4,6 +4,7 @@
 
 <div id="posts">
   <% @posts.each do |post| %>
+    <%= post.user.email%>
     <%= render post %>
     <p>
       <%= link_to "Show this post", post %>
