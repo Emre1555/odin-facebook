@@ -6,6 +6,8 @@
   <% @posts.each do |post| %>
     <%= post.user.email%>
     <%= render post %>
+    <%= render partial: "layouts/likes_button", locals: { likable: post } %>
+    <%= post.likes.count %>
     <p>
       <%= link_to "Show this post", post %>
     </p>
@@ -15,7 +17,7 @@
 <%= link_to "New post", new_post_path %>
 
 <br>
-<%= link_to "Friend Requests", friend_requests_path%> <br>
+<%= link_to "Friend Requests", friend_requests_path %> <br>
 
 
 <% @users.each do |user| %>

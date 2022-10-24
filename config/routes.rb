@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
+  get 'likes/create'
+  get 'likes/destroy'
   get 'friends/index'
   get 'friends/destroy'
   resources :friend_requests, only: [:index, :create, :update, :destroy]
   resources :friendships
   resources :friends, only: [:index, :destroy]
+  resources :likes, only:[ :create, :destroy]
 
   resources :posts
   devise_for :users, controllers: { sessions: 'users/sessions' }
