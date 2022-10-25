@@ -1,6 +1,19 @@
-<p style="color: green"><%= notice %></p>
+<p id="notice" style="color: green"><%= notice %></p>
+<%= @post.user.email%> <br>
+<%= @post.content %> <br>
 
-<%= render @post %>
+
+<%= @post.likes.count %> <br>
+<%= render partial: "layouts/likes_button", locals: { likable: @post } %> <br>
+
+<p> Comments </p> <br>
+<% @post.comments.each do |comment| %>
+  <%= comment.user.try(:email) %> <br>
+  <%= comment.text %> <br>
+<% end %>
+
+<%= render "comments/form", comment: @comment %>
+
 
 <div>
   <%= link_to "Edit this post", edit_post_path(@post) %> |
