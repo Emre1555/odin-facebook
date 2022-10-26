@@ -1,12 +1,12 @@
 class PostsController < ApplicationController
 
   def index 
-    @posts = Post.all
+    @posts = Post.where(:user_id => current_user.friends).or(Post.where(:user_id => current_user.id)).order("created_at DESC")
     @users = User.all
   end
 
   def show
-    @post = Post.find(params[:id])
+    @post = Post.where(:user_id => current_user.friends).or(Post.where(:user_id => current_user.id)).find(params[:id])
     @comment = @post.comments.build
   end
 
