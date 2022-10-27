@@ -6,6 +6,7 @@
   <% @posts.each do |post| %>
     <%= image_tag post.user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
     <%= post.user.email%>
+    <%= link_to post.user.first_name, user_path(post.user) %>
     <%= render post %>
     <%= render partial: "layouts/likes_button", locals: { likable: post } %>
     <%= post.likes.count %>
