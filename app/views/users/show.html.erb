@@ -1,1 +1,32 @@
-<%= @user.email %>
+<%= image_tag @user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
+<%= link_to "#{@user.first_name} #{@user.last_name}", user_path(@user) %> <br>
+<%= @user.location %> <br>
+<%= Date.today.year.to_i - @user.birthday.year.to_i + 
+    if Date.today.month.to_i > @user.birthday.month.to_i
+      0
+    elsif Date.today.month.to_i == @user.birthday.month.to_i
+        if Date.today.day.to_i >= @user.birthday.day.to_i
+            0
+        else
+            1
+        end
+    else
+        1
+end
+%> years old <br>
+ 
+<%= "Friends: #{@user.friends.count}" %> <br>
+<%= "Posts: #{@user.posts.count}" %> <br>
+
+
+
+<% @posts.each do |post| %>
+    <%= image_tag post.user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
+    <%= link_to "#{@user.first_name} #{@user.last_name}", user_path(@user) %> <br>
+    <%= render post %>
+    <%= render partial: "layouts/likes_button", locals: { likable: post } %>
+    <%= post.likes.count %>
+    <p>
+      <%= link_to "Show this post", post %>
+    </p>
+  <% end %>
