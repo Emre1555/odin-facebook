@@ -1,0 +1,15 @@
+<% @users.each do |user| %>
+    <%  if current_user.id != user.id && user.friends.exclude?(current_user)%>
+        <%= image_tag user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
+        <%= link_to "#{user.first_name} #{user.last_name}", user_path(user) %> 
+        <% if user.friend_request_sent?(user) %>
+            <p>Friend Request Sent</p>
+        <% elsif user.friend_request_received?(user) %>
+            <%= button_to "Accept", friend_request_path(friend_request), method: :put %>
+            <%= button_to "Reject", friend_request_path(friend_request), method: :delete %>
+        <% else %>
+            <%= button_to "Add Friend", friend_requests_path(friend_id: user.id), method: :post %><br>
+        <% end %>
+    <%end%>
+<% end %>
+   

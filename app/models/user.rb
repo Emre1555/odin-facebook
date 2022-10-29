@@ -33,4 +33,16 @@ class User < ApplicationRecord
     friendship.destroy
   end
 
+  def friend?(user)
+    friends.include?(user)
+  end
+
+  def friend_request_sent?(user)
+    @friend_request = FriendRequest.where(user: self, friend: user)
+  end 
+
+  def friend_request_received?(user)
+    @friend_request = FriendRequest.where(user: user, friend: self)
+  end
+
 end
