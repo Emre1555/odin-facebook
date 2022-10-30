@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  devise_for :users, controllers: { sessions: 'users/sessions', omniauth_callbacks: 'omniauth_callbacks' }
 
   resources :friend_requests, only: [:index, :create, :update, :destroy]
   resources :friendships
@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :posts do
     resources :comments
   end
-    
+
   # Defines the root path route ("/")
   root "posts#index"
 end
