@@ -6,8 +6,11 @@ ruby "3.0.3"
 gem 'devise'
 gem 'guard'
 gem 'gravtastic'
-gem 'omniauth-facebook'
+
 gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-facebook'
+# Development ENV Variables
+gem 'figaro'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"
