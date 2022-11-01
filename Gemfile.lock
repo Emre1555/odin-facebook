@@ -293,8 +293,9 @@ DEPENDENCIES
   guard
   jbuilder
   jsbundling-rails
-  omniauth-facebook
-  omniauth-rails_csrf_protection
+  omniauth (~> 2.0)
+  omniauth-facebook (~> 9.0)
+  omniauth-rails_csrf_protection (~> 1.0)
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.4)

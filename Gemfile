@@ -7,8 +7,9 @@ gem 'devise'
 gem 'guard'
 gem 'gravtastic'
 
-gem 'omniauth-rails_csrf_protection'
-gem 'omniauth-facebook'
+gem 'omniauth', '~> 2.0'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-facebook', '~> 9.0'
 # Development ENV Variables
 gem 'figaro'
 
