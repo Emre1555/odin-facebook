@@ -13,6 +13,8 @@ gem 'omniauth-facebook'
 # Development ENV Variables
 gem 'figaro'
 
+gem 'pry', '~> 0.13.1'
+
 gem "letter_opener", group: :development
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"

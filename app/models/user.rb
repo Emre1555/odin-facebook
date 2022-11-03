@@ -16,6 +16,8 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   has_many :likes, dependent: :destroy
+  
+  after_create :send_welcome_email
 
   
 
@@ -61,6 +63,10 @@ class User < ApplicationRecord
         user.password = Devise.friendly_token[0,20]
       end
     end
+  end
+
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver_now
   end
 
 end
