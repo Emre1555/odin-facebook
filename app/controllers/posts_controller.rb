@@ -1,8 +1,10 @@
 class PostsController < ApplicationController
 
+
   def index 
     @posts = Post.where(:user_id => current_user.friends).or(Post.where(:user_id => current_user.id)).order("created_at DESC")
     @users = User.all
+    @post = Post.new
   end
 
   def show
@@ -15,13 +17,14 @@ class PostsController < ApplicationController
   end
 
   def create
+    @posts = Post.where(:user_id => current_user.friends).or(Post.where(:user_id => current_user.id)).order("created_at DESC")
+    @users = User.all
     @post = Post.new(post_params)
     @post.user = current_user
     if @post.save
       redirect_to posts_path
     else
-      flash[:error] = "Unable to create post."
-      render :new
+      render :index ,status: :unprocessable_entity
     end
   end
 
@@ -40,8 +43,13 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-    @post.destroy
-    redirect_to root_path
+    if current_user == @post.user
+      @post.destroy
+      redirect_to root_path
+    else
+      flash[:error] = "You can't delete this post."
+      redirect_to root_path
+    end
   end
 
   private

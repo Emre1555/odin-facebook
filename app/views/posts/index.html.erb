@@ -2,7 +2,10 @@
 
 <h1>Posts</h1>
 
+<%= render partial: 'form', locals: {path: {controller: 'posts', action: 'create'}} %>
+
 <div id="posts">
+  <% if @posts %>
   <% @posts.each do |post| %>
     <%= image_tag post.user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
     <%= post.user.email%>
@@ -11,20 +14,24 @@
     <%= render partial: "layouts/likes_button", locals: { likable: post } %>
     <%= post.likes.count %>
     <p>
+    <%= button_to "Destroy this post", post, method: :delete %>
       <%= link_to "Show this post", post %>
     </p>
   <% end %>
+  <% end %>
 </div>
+
 
 <%= link_to "New post", new_post_path %>
 
 <br>
 <%= link_to "Friend Requests", friend_requests_path %> <br>
 
-
+<%if @users %>
 <% @users.each do |user| %>
   <%= user.email %>
   <%= button_to "Add Friend", friend_requests_path(friend_id: user.id), method: :post %>
+<%end%>
 <%end%>
 
 
