@@ -18,6 +18,20 @@ end
 <%= "Friends: #{@user.friends.count}" %> <br>
 <%= "Posts: #{@user.posts.count}" %> <br>
 
+<% unless @user == current_user %>
+  <% if current_user.friends.include?(@user) %>
+    <%= button_to "Unfriend", friendship_path(@user), method: :delete %>
+  <% elsif current_user.friend_requests.include?(@user) %>
+    <%= button_to "Accept Friend Request", friendship_path(@user), method: :patch %>
+    <%= button_to "Reject Friend Request", friendship_path(@user), method: :delete %>
+  <% elsif current_user.friend_requests.include?(current_user) %>
+    <%= button_to "Cancel Friend Request", friendship_path(@user), method: :delete %>
+  <% else %>
+    <%= button_to "Add Friend", friend_requests_path(friend_id: @user.id), method: :post %>
+  <% end %>
+<% end %>
+  
+
 
 
 <% @posts.each do |post| %>
