@@ -1,14 +1,18 @@
 class UsersController < ApplicationController
     def index 
-        @users = User.all
         @incoming = FriendRequest.where(friend: current_user)
         @outgoing = current_user.friend_requests
+
+        if params[:search]
+            @users = User.search(params[:search]).order("created_at DESC")
+        else
+            @users = User.all.order("created_at DESC")
+        end
     end
 
     def show
         @user = User.find(params[:id])
         @posts = @user.posts.order("created_at DESC")
-        
     end
 
     def new
@@ -43,7 +47,6 @@ class UsersController < ApplicationController
         redirect_to root_path
         @user = User.find(params[:id])
         @user.destroy
-        
     end
 
     private
@@ -51,6 +54,10 @@ class UsersController < ApplicationController
     
      def user_params
         params.require(:user).permit(:name, :email, :password)
+     end
+
+     def search_params
+        params.permit(:search)
      end
 
 end

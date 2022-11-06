@@ -1,3 +1,13 @@
+<% if params[:search].present? %>
+  <% if @users.blank? %>
+    No Results
+  <% elsif %>
+    <% @users.each do |user| %>
+      <%= image_tag user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
+    <%= link_to "#{user.first_name} #{user.last_name}", user_path(user) %> 
+    <% end %>
+  <% end %>
+<% else %>
 <% @users.each do |user| %>
     <%  if current_user.id != user.id && user.friends.exclude?(current_user)%>
         <%= image_tag user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
@@ -11,5 +21,6 @@
             <%= button_to "Add Friend", friend_requests_path(friend_id: user.id), method: :post %><br>
         <% end %>
     <%end%>
+<% end %>
 <% end %>
    
