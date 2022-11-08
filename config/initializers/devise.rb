@@ -311,6 +311,6 @@ Devise.setup do |config|
 
   config.navigational_formats = ['*/*', :html, :turbo_stream]
   
-  config.omniauth :facebook, ENV['FACEBOOK_ID'], ENV['FACEBOOK_SECRET'],  token_params: { parse: :json }, scope: 'public_profile,email',
+  config.omniauth :facebook, ENV['FACEBOOK_ID'], ENV['FACEBOOK_SECRET'],  token_params: { parse: :json }, scope: 'public_profile,email, user_birthday',
   info_fields: 'email,first_name,last_name,birthday'
 end

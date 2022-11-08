@@ -12,6 +12,8 @@ gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-facebook'
 # Development ENV Variables
 gem 'figaro'
+gem "font-awesome-sass", "~> 6.2.0"
+
 
 gem 'pry', '~> 0.13.1'
 
