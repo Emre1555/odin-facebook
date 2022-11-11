@@ -8,44 +8,37 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <% if @current_user%>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <%= link_to "Home", root_path, class:"nav-link active"  %> 
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Discover</a>
+          <%= link_to "Discover", users_path, class:"nav-link active"  %> 
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">My Profile</a>
-        </li>
-        <li class="nav-item">
-          <div class="align-items-center">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#search"></use></svg>
-              <%= form_tag(users_path, method: 'get') do %>
-                <%= text_field_tag(:search, params[:search]) %>
-                <%= submit_tag("Search", name: nil) %>
-               <% end %>
-          </div>
+           <%= link_to "My profile", user_path(@current_user), class:"nav-link active"  %>
         </li>
         <%end%>
-      </ul>
+      </ul>      
 
-      
-
-    <div>
         <% if current_user %>
-          <div class="btn btn-outline-success" type="submit">
-            <%= button_to "Logout", destroy_user_session_path, method: :delete %>
+        <div class="d-flex flex-row">
+          <%= form_tag(users_path, method: 'get', class: 'rounded input-group mx-4') do %>
+            <%= text_field_tag :search, params[:search], class:'form-control rounded' %>
+            <%= button_tag(type: "submit", class: "btn btn-default input-group-text border-0") do %>
+                <i class="fas fa-search"></i>
+            <% end %>
+          <% end %>
+        
+          <div class="d-flex align-items-center" type="submit">
+            <%= button_to "Logout", destroy_user_session_path, method: :delete, class:"btn btn-link px-3 me-2 text-decoration-none" %>
           </div>
+        </div>
 
         <% else %>
-          <button class="btn btn-outline-success" type="submit">
-            <%= link_to "Log in", new_user_session_path %>
-          </button>
-          <button class="btn btn-outline-success" type="submit">
-            <%= link_to "Sign up", new_user_registration_path %>
-          </button>
-        <% end %>
-      </div>
-        
+          <div class="d-flex align-items-center">
+              <%= link_to "Login", new_user_session_path, class:"btn btn-link px-3 me-2 text-decoration-none" %>
+              <%= link_to "Sign up", new_user_registration_path, class:"btn btn-primary me-3" %>
+          </div>
+        <% end %>       
     </div>
   </div>
 </nav>

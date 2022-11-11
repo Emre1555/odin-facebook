@@ -11,8 +11,8 @@
             <p class="lead fw-normal mb-0 me-3">Sign in with</p>
  
             
-                <%= button_to user_facebook_omniauth_authorize_path, method: :post, :data => {turbo: "false"}, class:"btn btn-primary btn-floating mx-1" do %>      
-                   <i class="fa-brands fa-facebook-f"></i>  Facebook
+                <%= button_to user_facebook_omniauth_authorize_path, method: :post, :data => {turbo: "false"}, class:"btn btn-primary btn-floating mx-1 rounded-circle" do %>      
+                   <i class="fab fa-facebook-f"></i>  
                 <% end %>
                   
           </div>
@@ -47,7 +47,7 @@
           </div>
 
           <div class="actions text-center text-lg-start mt-4 pt-2">
-            <%= f.submit "Log in", class:"btn btn-lg btn-primary", style:"padding-left: 2.5rem; padding-right: 2.5rem;" %>
+            <%= f.submit "Login", class:"btn btn-lg btn-primary", style:"padding-left: 2.5rem; padding-right: 2.5rem;" %>
           
 
           <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
