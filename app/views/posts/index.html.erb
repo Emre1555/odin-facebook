@@ -1,22 +1,29 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Posts</h1>
-
 <%= render partial: 'form', locals: {path: {controller: 'posts', action: 'create'}} %>
 
 <div id="posts">
   <% if @posts %>
   <% @posts.each do |post| %>
-    <%= image_tag post.user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
-    <%= post.user.email%>
-    <%= link_to post.user.first_name, user_path(post.user) %>
-    <%= render post %>
-    <%= render partial: "layouts/likes_button", locals: { likable: post } %>
-    <%= post.likes.count %>
-    <p>
-    <%= button_to "Destroy this post", post, method: :delete %>
-      <%= link_to "Show this post", post %>
-    </p>
+  <div class="d-flex justify-content-center">
+    <div class="d-flex w-50 my-4 border rounded justify-content-around rounded-50 p-4">
+      <div>
+        <%= image_tag post.user.gravatar_url(:rating => 'R', :secure => true, :size => 50), class:"rounded-circle" %>
+        <%= link_to "#{post.user.first_name} #{post.user.last_name}", user_path(post.user), class:"text-decoration-none mx-2" %>
+      </div>
+      <div class="w-25 mx-4 flex-fill">
+        <%= render post %>  
+        <div class="d-flex">
+          <%= post.likes.count %>
+          <%= render partial: "layouts/likes_button", locals: { likable: post } %>
+        </div>
+        <%= link_to "Show this post", post %>
+      </div>
+      <% if post.user == current_user %>
+        <%= button_to post, method: :delete, class:"btn btn-floating mx-1" do %>
+          <i class="fa-solid fa-trash"></i>
+        <% end %>   
+      <% end %>
+    </div>
+  </div>
   <% end %>
   <% end %>
 </div>

@@ -1,26 +1,36 @@
+<div class="container mt-5">
+
+
 <% if params[:search].present? %>
   <% if @users.blank? %>
     No Results
   <% elsif %>
+    <h2 class="text-center fs-3 py-4"> Your Search Results </h2>
     <% @users.each do |user| %>
-      <%= image_tag user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
-    <%= link_to "#{user.first_name} #{user.last_name}", user_path(user) %> 
+     <div class="d-flex mx-auto align-items-center mt-3 justify-content-start w-50">
+      <%= image_tag user.gravatar_url(:rating => 'R', :secure => true, :size => 80), class:"rounded-circle" %>
+    <%= link_to "#{user.first_name} #{user.last_name}", user_path(user), class:"text-decoration-none mx-4"%> 
+    </div>
     <% end %>
   <% end %>
 <% else %>
+<h2 class="title fs-3 py-4 text-center"> Discover People </h2>
 <% @users.each do |user| %>
     <%  if current_user.id != user.id && user.friends.exclude?(current_user)%>
-        <%= image_tag user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
-        <%= link_to "#{user.first_name} #{user.last_name}", user_path(user) %> 
-        <% if user.friend_request_sent?(user) %>
-            <p>Friend Request Sent</p>
-        <% elsif user.friend_request_received?(user) %>
-            <%= button_to "Accept", friend_request_path(friend_request), method: :put %>
+      <div class="d-flex mx-auto align-items-center mt-3 justify-content-between w-50">
+        <%= image_tag user.gravatar_url(:rating => 'R', :secure => true, :size => 80), class:"rounded-circle" %>
+        <%= link_to "#{user.first_name} #{user.last_name}", user_path(user), class:"text-decoration-none" %> 
+        <% if current_user.friend_requests.exists?(friend_id: user.id) %>
+            <%= button_to "Cancel Friend Request", friend_request_path(current_user.friend_requests.where(friend_id: user.id).first), method: :delete, class:"btn btn-primary" %>
+        <% elsif user.friend_requests.exists?(friend_id: current_user.id) %>
+            <%= button_to "Accept", friend_request_path(friend_request), method: :put, class:"btn-success" %>
             <%= button_to "Reject", friend_request_path(friend_request), method: :delete %>
         <% else %>
-            <%= button_to "Add Friend", friend_requests_path(friend_id: user.id), method: :post %><br>
+            <%= button_to "Add Friend", friend_requests_path(friend_id: user.id), method: :post, class:"btn btn-primary mx-4" %>  
         <% end %>
+      </div>
     <%end%>
 <% end %>
 <% end %>
-   
+
+</div>

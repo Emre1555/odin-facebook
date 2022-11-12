@@ -11,7 +11,7 @@ class FriendRequestsController < ApplicationController
 
         if @friend_request.save
             flash[:notice] = "Friend request sent."
-            redirect_to root_path
+            redirect_to users_path
             # render :show, status: :created, location: @friend_request
         else
             flash[:error] = "Unable to send friend request."
@@ -27,7 +27,7 @@ class FriendRequestsController < ApplicationController
 
     def destroy
         @friend_request.destroy
-        head :no_content
+        redirect_to users_path
     end
 
     private
