@@ -1,36 +1,65 @@
-<%= image_tag @user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
-<%= link_to "#{@user.first_name} #{@user.last_name}", user_path(@user) %> <br>
-<%= @user.location %> <br>
-<% if @user.birthday %>
-  <%= @user.birthday.strftime("%B %d, %Y") %>
-<% end %> <br>
+<div class="container text-center">
+  <div class="d-flex flex-row align-items-center">
+    <%= image_tag @user.gravatar_url(:rating => 'R', :secure => true, :size => 90), class:"rounded-circle" %>
+    <div class="d-flex flex-column mx-5">
+    <%= link_to "#{@user.first_name} #{@user.last_name}", user_path(@user), class:"text-decoration-none fs-4 " %>
+    <%= @user.location %> <br>
+    <% if @user.birthday %>
+      <%= @user.birthday.strftime("%B %d, %Y") %>
+    <% end %> <br>
+    <%= "Friends: #{@user.friends.count}" %> <br>
+    <%= "Posts: #{@user.posts.count}" %> <br>
+    <div>
+      <% unless @user == current_user %>
+        <% if current_user.friends.include?(@user) %>
+          <%= button_to "Unfriend", friendship_path(@user), method: :delete, class:"btn btn-secondary" %>
+        <% elsif @user.friend_requests.exists?(friend_id: current_user.id) %>
+          <%= button_to "Accept Friend Request", friendship_path(@user), method: :patch, class:"btn btn-success" %>
+          <%= button_to "Reject Friend Request", friendship_path(@user), method: :delete, class:"btn btn-danger" %>
+        <% elsif current_user.friend_requests.exists?(friend_id: @user.id) %>
+          <%= button_to "Cancel Friend Request", friendship_path(@user), method: :delete, class:"btn btn-secondary" %>
+        <% else %>
+          <%= button_to "Add Friend", friend_requests_path(friend_id: @user.id), method: :post, class:"btn btn-primary" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 
-<%= @user.inspect%>
 
-<%= "Friends: #{@user.friends.count}" %> <br>
-<%= "Posts: #{@user.posts.count}" %> <br>
 
-<% unless @user == current_user %>
-  <% if current_user.friends.include?(@user) %>
-    <%= button_to "Unfriend", friendship_path(@user), method: :delete %>
-  <% elsif current_user.friend_requests.include?(@user) %>
-    <%= button_to "Accept Friend Request", friendship_path(@user), method: :patch %>
-    <%= button_to "Reject Friend Request", friendship_path(@user), method: :delete %>
-  <% elsif current_user.friend_requests.include?(current_user) %>
-    <%= button_to "Cancel Friend Request", friendship_path(@user), method: :delete %>
-  <% else %>
-    <%= button_to "Add Friend", friend_requests_path(friend_id: @user.id), method: :post %>
-  <% end %>
-<% end %>
-  
+  <div id="posts" class="flex-fill">
+    <% if @posts %>
+    <% @posts.each do |post| %>
+    <div class="d-flex justify-content-center flex-fill">
+      <div class="d-flex w-50 my-4 border rounded justify-content-around rounded-50 p-4">
+        <div>
+          <%= image_tag post.user.gravatar_url(:rating => 'R', :secure => true, :size => 50), class:"rounded-circle" %>
+          <%= link_to "#{post.user.first_name} #{post.user.last_name}", user_path(post.user), class:"text-decoration-none mx-2" %>
+        </div>
+        <div class="w-25 mx-4 flex-fill">
+          <%= render post %>  
+          <div class="d-flex align-items-center">
 
-<% @posts.each do |post| %>
-    <%= image_tag post.user.gravatar_url(:rating => 'R', :secure => true, :size => 50) %>
-    <%= link_to "#{@user.first_name} #{@user.last_name}", user_path(@user) %> <br>
-    <%= render post %>
-    <%= render partial: "layouts/likes_button", locals: { likable: post } %>
-    <%= post.likes.count %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
-  <% end %>
+            <%= post.likes.count %>
+            <%= render partial: "layouts/likes_button", locals: { likable: post } %>
+            <div class="mx-2">
+              <%= post.comments.count %>
+              <i class="fa-regular fa-comment mx-3"></i>
+            </div>
+          </div>
+          <%= link_to "Show this post", post %>
+        </div>
+        <% if post.user == current_user %>
+          <%= link_to edit_post_path(post), class:"btn btn-floating mx-1" do %>
+            <i class="fa-solid fa-pen-to-square"></i>
+          <% end %>
+          <%= button_to post, method: :delete, class:"btn btn-floating mx-1" do %>
+            <i class="fa-solid fa-trash"></i>
+          <% end %>   
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+    <% end %>
+  </div>
+</div>

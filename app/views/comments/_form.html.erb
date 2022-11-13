@@ -1,15 +1,19 @@
-<%= form_for [@post, @comment] do |form| %>
-    <% if comment.errors.any? %>
-        <div id="error_explanation">
-            <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
-            <ul>
-                <% comment.errors.each do |error| %>
-                    <li><%= error.full_message %></li>
-                <% end %>
-            </ul>
-        </div>
+<div>   
+    <%= form_for [@post, @comment] do |form| %>
+        <% if comment.errors.any? %>
+            <div id="error_explanation">
+                <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+                <ul>
+                    <% comment.errors.each do |error| %>
+                        <li><%= error.full_message %></li>
+                    <% end %>
+                </ul>
+            </div>
+        <% end %>
+        <%= form.hidden_field :post_id %>
+    <div class="d-flex flex-row justify-content-center">
+       <%= form.text_field :text, class:"w-25 form-control", rows:"2" %>
+       <%= form.submit "Comment" , class: 'btn btn-primary mx-3 p-2' %>
+    </div>
     <% end %>
-    <%= form.hidden_field :post_id %>
-   <%= form.text_field :text %>
-   <%= form.submit %>
-<% end %>
+</div>

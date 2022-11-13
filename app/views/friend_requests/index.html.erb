@@ -1,26 +1,24 @@
-
-<p>Incoming friend requests</p>
-<% if @incoming %>
-  <% @incoming.each do |friend_request| %>
-    <%= friend_request.user.email %>
-    <%= button_to "Accept", friend_request_path(friend_request), method: :put %>
-    <%= button_to "Reject", friend_request_path(friend_request), method: :delete %>
+<div class="text-center">
+  <p class="fs-4 mx-3 my-4"> You have <%= @incoming.count%> friend requests</p>
+  <% if @incoming %>
+    <% @incoming.each do |friend_request| %>
+      <div class="d-flex justify-content-center align-items-center">
+        <%= image_tag friend_request.user.gravatar_url(:rating => 'R', :secure => true, :size => 50), class:"rounded-circle mx-3" %>
+        <%= link_to "#{friend_request.user.first_name} #{friend_request.user.last_name}", user_path(friend_request.user), class:"text-decoration-none mx-3" %>
+        <%= button_to "Accept", friend_request_path(friend_request), method: :put, class:"btn btn-success mx-3" %>
+        <%= button_to "Reject", friend_request_path(friend_request), method: :delete, class:"btn btn-danger mx-3" %>
+      </div>
+    <%end%>
   <%end%>
-<%end%>
 
-<p> Outgoing friend requests </p>
-<% if @outgoing %>  
-  <% @outgoing.each do |friend_request| %>
-    <p>You want to be friends with <%= friend_request.friend.email %></p>
-    <%= button_to "Cancel", friend_request_path(friend_request), method: :delete %>
+  <p class="fs-4 mx-3 my-4"> You have <%= current_user.friends.count%> friends</p>
+  <% if @current_user.friends %>
+    <% @current_user.friends.each do |friend| %>
+      <div class="d-flex justify-content-center">
+        <%= image_tag friend.gravatar_url(:rating => 'R', :secure => true, :size => 50), class:"rounded-circle mx-3" %>
+        <%= link_to friend.first_name + " " + friend.last_name, user_path(friend), class:"text-decoration-none mx-2" %>
+        <%= button_to "Unfriend", friend_path(friend), method: :delete, class:"btn btn-secondary mx-1" %>
+      </div>
+    <% end %>
   <% end %>
-<%end%>
-
-
-<p> friends </p>
-<% if @current_user.friends %>
-  <% @current_user.friends.each do |friendship| %>
-    <p> <%= friendship.email %> </p>
-    <%= button_to "Unfriend", friend_path(friendship), method: :delete %>
-  <% end %>
-<%end%>
+</div>

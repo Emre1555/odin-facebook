@@ -11,13 +11,21 @@
       </div>
       <div class="w-25 mx-4 flex-fill">
         <%= render post %>  
-        <div class="d-flex">
+        <div class="d-flex align-items-center">
+      
           <%= post.likes.count %>
           <%= render partial: "layouts/likes_button", locals: { likable: post } %>
+          <div class="mx-2">
+            <%= post.comments.count %>
+            <i class="fa-regular fa-comment mx-3"></i>
+          </div>
         </div>
         <%= link_to "Show this post", post %>
       </div>
       <% if post.user == current_user %>
+        <%= link_to edit_post_path(post), class:"btn btn-floating mx-1" do %>
+          <i class="fa-solid fa-pen-to-square"></i>
+        <% end %>
         <%= button_to post, method: :delete, class:"btn btn-floating mx-1" do %>
           <i class="fa-solid fa-trash"></i>
         <% end %>   
@@ -27,20 +35,6 @@
   <% end %>
   <% end %>
 </div>
-
-
-<%= link_to "New post", new_post_path %>
-
-<br>
-<%= link_to "Friend Requests", friend_requests_path %> <br>
-
-<%if @users %>
-<% @users.each do |user| %>
-  <%= user.email %>
-  <%= button_to "Add Friend", friend_requests_path(friend_id: user.id), method: :post %>
-<%end%>
-<%end%>
-
 
 
 

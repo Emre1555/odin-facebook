@@ -23,8 +23,10 @@
         <% if current_user.friend_requests.exists?(friend_id: user.id) %>
             <%= button_to "Cancel Friend Request", friend_request_path(current_user.friend_requests.where(friend_id: user.id).first), method: :delete, class:"btn btn-primary" %>
         <% elsif user.friend_requests.exists?(friend_id: current_user.id) %>
-            <%= button_to "Accept", friend_request_path(friend_request), method: :put, class:"btn-success" %>
-            <%= button_to "Reject", friend_request_path(friend_request), method: :delete %>
+          <div class="d-flex">
+            <%= button_to "Accept", friend_request_path(user.friend_requests.where(friend_id: current_user.id).first), method: :put, class:"btn btn-success" %>
+            <%= button_to "Reject", friend_request_path(user.friend_requests.where(friend_id: current_user.id).first), method: :delete, class:"btn btn-danger mx-3" %>
+          </div>
         <% else %>
             <%= button_to "Add Friend", friend_requests_path(friend_id: user.id), method: :post, class:"btn btn-primary mx-4" %>  
         <% end %>
